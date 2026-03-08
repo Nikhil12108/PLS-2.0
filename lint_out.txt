@@ -1,0 +1,163 @@
+﻿
+> ai-doc-assistant@0.1.0 lint
+> eslint
+
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\chat\route.ts
+   37:51  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+   43:13  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+   44:47  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+   77:54  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  101:21  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  112:40  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  139:21  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\extract\route.ts
+  48:17  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  49:51  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  86:21  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\generate\route.ts
+   22:48   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   49:13   warning  'hasChart' is assigned a value but never used          @typescript-eslint/no-unused-vars
+   69:58   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   72:59   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  105:39   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  127:18   warning  'e' is defined but never used                          @typescript-eslint/no-unused-vars
+  131:28   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  132:29   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  142:42   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  148:39   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  152:79   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  152:120  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  154:52   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  206:84   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  206:120  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  208:25   error    'paragraphs' is never reassigned. Use 'const' instead  prefer-const
+  209:47   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  210:46   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  211:45   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  219:33   error    'runs' is never reassigned. Use 'const' instead        prefer-const
+  234:58   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  244:58   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  257:58   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  286:120  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  287:85   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  290:25   error    'rootBlocks' is never reassigned. Use 'const' instead  prefer-const
+  290:37   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  312:63   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  321:54   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  322:62   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  362:25   error    'runs' is never reassigned. Use 'const' instead        prefer-const
+  434:21   error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\refine\route.ts
+   12:44  warning  'vectorStoreId' is assigned a value but never used                                                                   @typescript-eslint/no-unused-vars
+  139:13  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  140:47  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  179:31  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  184:21  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\upload\route.ts
+  34:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  68:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  85:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\api\validate\route.ts
+  48:17  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  49:51  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  74:18  warning  'e' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+  81:21  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\layout.tsx
+  20:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\app\page.tsx
+   25:6   warning  React Hook useEffect has a missing dependency: 'keys'. Either include it or remove the dependency array                                                                                                                                                                                  react-hooks/exhaustive-deps
+   27:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   31:56  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   39:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   48:6   warning  React Hook useEffect has a missing dependency: 'extractionTimeMs'. Either include it or remove the dependency array                                                                                                                                                                      react-hooks/exhaustive-deps
+  137:9   error    'accumulatedAnswers' is never reassigned. Use 'const' instead                                                                                                                                                                                                                            prefer-const
+  137:44  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  147:11  error    'batchPrompts' is never reassigned. Use 'const' instead                                                                                                                                                                                                                                  prefer-const
+  158:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  162:20  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  184:51  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  199:22  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  217:53  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  237:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  251:53  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  372:37  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  378:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  401:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  402:64  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  465:55  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  470:49  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  511:76  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  520:63  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  525:76  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  547:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\components\Chatbot.tsx
+  12:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  68:18  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\src\components\JsonEditor.tsx
+    6:9   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    7:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   11:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_batch.js
+  1:16  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_chart.js
+   1:19  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  42:9   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_extract.js
+  1:7   warning  'fs' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:12  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_nodebuffer.js
+  1:19  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_protocol_gen.js
+   1:12   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+   2:14   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+   3:55   warning  'Table' is assigned a value but never used          @typescript-eslint/no-unused-vars
+   3:62   warning  'TableRow' is assigned a value but never used       @typescript-eslint/no-unused-vars
+   3:72   warning  'TableCell' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   3:83   warning  'BorderStyle' is assigned a value but never used    @typescript-eslint/no-unused-vars
+   3:96   warning  'WidthType' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   3:107  warning  'VerticalAlign' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   3:122  warning  'AlignmentType' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  16:26   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+  61:23   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_protocol_gen_clean.js
+   1:12   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+   2:14   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+   3:44   warning  'Paragraph' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   3:55   warning  'Table' is assigned a value but never used          @typescript-eslint/no-unused-vars
+   3:62   warning  'TableRow' is assigned a value but never used       @typescript-eslint/no-unused-vars
+   3:72   warning  'TableCell' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   3:83   warning  'BorderStyle' is assigned a value but never used    @typescript-eslint/no-unused-vars
+   3:96   warning  'WidthType' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   3:107  warning  'VerticalAlign' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   3:122  warning  'AlignmentType' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  16:26   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+  53:23   error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+
+C:\Users\NikhilKumar\OneDrive - Krystelis Ltd\Desktop\stitch frontend\ai-doc-assistant\test_xml.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+Γ£û 121 problems (94 errors, 27 warnings)
+  6 errors and 0 warnings potentially fixable with the `--fix` option.
+
