@@ -22,22 +22,25 @@ export async function POST(request: NextRequest) {
         const uploadedFileIds: string[] = [];
         const errors: string[] = [];
 
-        // 2. Upload files to OpenAI in parallel
-        const uploadPromises = files.map(async (file) => {
-            try {
-                const fileUploadResponse = await openai.files.create({
-                    file: file,
-                    purpose: 'assistants',
-                });
-                uploadedFileIds.push(fileUploadResponse.id);
-                console.log(`Successfully uploaded file: ${file.name} (${fileUploadResponse.id})`);
-            } catch (e: any) {
-                console.error(`Failed to upload ${file.name}:`, e);
-                errors.push(`Failed to upload '${file.name}': ${e.message}`);
-            }
-        });
-
-        await Promise.all(uploadPromises);
+        // 2. Upload files to OpenAI in batches (to avoid unbounded parallel execution)
+        const BATCH_SIZE = 5;
+        for (let i = 0; i < files.length; i += BATCH_SIZE) {
+            const batch = files.slice(i, i + BATCH_SIZE);
+            const uploadPromises = batch.map(async (file) => {
+                try {
+                    const fileUploadResponse = await openai.files.create({
+                        file: file,
+                        purpose: 'assistants',
+                    });
+                    uploadedFileIds.push(fileUploadResponse.id);
+                    console.log(`Successfully uploaded file: ${file.name} (${fileUploadResponse.id})`);
+                } catch (e: any) {
+                    console.error(`Failed to upload ${file.name}:`, e);
+                    errors.push(`Failed to upload '${file.name}': ${e.message}`);
+                }
+            });
+            await Promise.all(uploadPromises);
+        }
 
         if (uploadedFileIds.length === 0) {
             return NextResponse.json(
