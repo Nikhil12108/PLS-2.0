@@ -262,7 +262,7 @@ export default function Dashboard() {
     let completedKeys = 0;
 
     // Accumulate answers to provide context to subsequent batches
-    let accumulatedAnswers: Record<string, any> = {};
+    const accumulatedAnswers: Record<string, any> = {};
 
     for (let i = 0; i < activeKeys.length; i += batchSize) {
       const batch = activeKeys.slice(i, i + batchSize);
@@ -272,7 +272,7 @@ export default function Dashboard() {
         batch.includes(feed.title) ? { ...feed, status: "FETCHING..." } : feed
       ));
 
-      let batchPrompts: Record<string, string> = {};
+      const batchPrompts: Record<string, string> = {};
       batch.forEach(k => batchPrompts[k] = texts[k]);
 
       try {

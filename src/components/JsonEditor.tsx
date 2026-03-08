@@ -2,6 +2,112 @@
 
 import React from 'react'
 
+interface JsonEditorTableCellProps {
+  cell: any;
+  rowIdx: number;
+  colIdx: number;
+  path: string[];
+  updateNestedValue: (path: string[], newValue: any) => void;
+}
+
+const JsonEditorTableCell: React.FC<JsonEditorTableCellProps> = ({ cell, rowIdx, colIdx, path, updateNestedValue }) => {
+  return (
+    <td className="px-2 py-1 border-r border-slate-200 dark:border-slate-800 align-top">
+      <textarea
+        value={String(cell)}
+        onChange={(e) => updateNestedValue([...path, 'rows', String(rowIdx), String(colIdx)], e.target.value)}
+        className="w-full bg-transparent outline-none resize-y min-h-[40px] focus:bg-slate-100 dark:focus:bg-slate-800 rounded p-1 transition-colors"
+      />
+    </td>
+  );
+};
+
+interface JsonEditorTableRowProps {
+  row: any[];
+  rowIdx: number;
+  path: string[];
+  updateNestedValue: (path: string[], newValue: any) => void;
+  removeTableRow: (path: string[], rowIdx: number) => void;
+}
+
+const JsonEditorTableRow: React.FC<JsonEditorTableRowProps> = ({ row, rowIdx, path, updateNestedValue, removeTableRow }) => {
+  return (
+    <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+      <td className="w-8 border-r border-slate-200 dark:border-slate-800 text-center align-middle">
+        <button
+          onClick={() => removeTableRow(path, rowIdx)}
+          className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity"
+          title="Remove Row"
+        >
+          <span className="material-symbols-outlined text-[16px]">remove_circle</span>
+        </button>
+      </td>
+      {row.map((cell: any, colIdx: number) => (
+        <JsonEditorTableCell
+          key={colIdx}
+          cell={cell}
+          rowIdx={rowIdx}
+          colIdx={colIdx}
+          path={path}
+          updateNestedValue={updateNestedValue}
+        />
+      ))}
+    </tr>
+  );
+};
+
+interface JsonEditorTableProps {
+  value: any;
+  path: string[];
+  updateNestedValue: (path: string[], newValue: any) => void;
+  addTableRow: (path: string[], rowLength: number) => void;
+  removeTableRow: (path: string[], rowIdx: number) => void;
+}
+
+const JsonEditorTable: React.FC<JsonEditorTableProps> = ({ value, path, updateNestedValue, addTableRow, removeTableRow }) => {
+  return (
+    <div className="space-y-2 mt-2">
+      <div className="overflow-x-auto border border-slate-300 dark:border-slate-700 rounded-md shadow-sm custom-scrollbar">
+        <table className="w-full text-sm text-left">
+          <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs uppercase">
+            <tr>
+              <th className="w-8 border-b border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"></th>
+              {value.headers.map((h: string, colIdx: number) => (
+                <th key={colIdx} className="min-w-[150px] px-2 py-2 border-b border-r border-slate-200 dark:border-slate-700 align-top">
+                  <textarea
+                    value={String(h)}
+                    onChange={(e) => updateNestedValue([...path, 'headers', String(colIdx)], e.target.value)}
+                    className="w-full bg-transparent outline-none resize-y min-h-[40px] font-bold"
+                  />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {value.rows.map((row: any[], rowIdx: number) => (
+              <JsonEditorTableRow
+                key={rowIdx}
+                row={row}
+                rowIdx={rowIdx}
+                path={path}
+                updateNestedValue={updateNestedValue}
+                removeTableRow={removeTableRow}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <button
+        onClick={() => addTableRow(path, value.headers.length)}
+        className="mt-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 px-3 py-1.5 rounded flex items-center gap-1 transition-colors border border-[var(--color-primary)]/20 shadow-sm"
+      >
+        <span className="material-symbols-outlined text-[14px]">add</span>
+        ADD ROW
+      </button>
+    </div>
+  );
+};
+
 interface JsonEditorProps {
   data: any
   onUpdate: (newData: any) => void
@@ -96,57 +202,13 @@ export function JsonEditor({ data, onUpdate }: JsonEditorProps) {
       // Spreadsheet Table View Detection
       if (Array.isArray(value.headers) && Array.isArray(value.rows)) {
         return (
-          <div className="space-y-2 mt-2">
-            <div className="overflow-x-auto border border-slate-300 dark:border-slate-700 rounded-md shadow-sm custom-scrollbar">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs uppercase">
-                  <tr>
-                    <th className="w-8 border-b border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"></th>
-                    {value.headers.map((h: string, colIdx: number) => (
-                      <th key={colIdx} className="min-w-[150px] px-2 py-2 border-b border-r border-slate-200 dark:border-slate-700 align-top">
-                        <textarea
-                          value={String(h)}
-                          onChange={(e) => updateNestedValue([...path, 'headers', String(colIdx)], e.target.value)}
-                          className="w-full bg-transparent outline-none resize-y min-h-[40px] font-bold"
-                        />
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {value.rows.map((row: any[], rowIdx: number) => (
-                    <tr key={rowIdx} className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                      <td className="w-8 border-r border-slate-200 dark:border-slate-800 text-center align-middle">
-                        <button
-                          onClick={() => removeTableRow(path, rowIdx)}
-                          className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity"
-                          title="Remove Row"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">remove_circle</span>
-                        </button>
-                      </td>
-                      {row.map((cell: any, colIdx: number) => (
-                        <td key={colIdx} className="px-2 py-1 border-r border-slate-200 dark:border-slate-800 align-top">
-                          <textarea
-                            value={String(cell)}
-                            onChange={(e) => updateNestedValue([...path, 'rows', String(rowIdx), String(colIdx)], e.target.value)}
-                            className="w-full bg-transparent outline-none resize-y min-h-[40px] focus:bg-slate-100 dark:focus:bg-slate-800 rounded p-1 transition-colors"
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <button
-              onClick={() => addTableRow(path, value.headers.length)}
-              className="mt-2 text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 px-3 py-1.5 rounded flex items-center gap-1 transition-colors border border-[var(--color-primary)]/20 shadow-sm"
-            >
-              <span className="material-symbols-outlined text-[14px]">add</span>
-              ADD ROW
-            </button>
-          </div>
+          <JsonEditorTable
+            value={value}
+            path={path}
+            updateNestedValue={updateNestedValue}
+            addTableRow={addTableRow}
+            removeTableRow={removeTableRow}
+          />
         )
       }
 

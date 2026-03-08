@@ -290,7 +290,7 @@ export async function POST(request: NextRequest) {
                     let chart_data_items = Array.isArray(value) ? value : (value as any).chart_data;
                     if (!chart_data_items) chart_data_items = [];
 
-                    let rootBlocks: any[] = [];
+                    const rootBlocks: any[] = [];
 
                     for (const item of chart_data_items) {
                         const question = item.question || '';
@@ -362,7 +362,7 @@ export async function POST(request: NextRequest) {
                         textPatches[key] = { type: PatchType.PARAGRAPH, children: [new TextRun(JSON.stringify(value))] };
                     }
                 } else if (Array.isArray(value)) {
-                    let runs: TextRun[] = [];
+                    const runs: TextRun[] = [];
                     for (let i = 0; i < value.length; i++) {
                         const item = value[i];
                         if (typeof item === 'string') {
