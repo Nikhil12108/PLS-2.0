@@ -317,7 +317,7 @@ export default function Dashboard() {
               console.log("ORIGINAL BATCH KEYS:", Object.keys(batchResults));
 
               // Re-inject the metadata since the refinement agent ALWAYS strips it
-              // The metadata is stored at the root level of each key's object in batchResults
+              // The metadata is stored at the root level of each key's object in batchResults, or sometimes under 'data'
               const metaKeys = ['confidence_score', 'source_quote', 'source_file', 'source_page', 'source_section', 'reasoning'];
 
               for (const key of Object.keys(batchResults)) {
@@ -339,9 +339,11 @@ export default function Dashboard() {
 
                 if (originalObj && refinedObj) {
                   for (const mKey of metaKeys) {
-                    if (originalObj[mKey] !== undefined) {
-                      refinedObj[mKey] = originalObj[mKey];
-                      console.log(`[REINJECT] Copied ${mKey}=${originalObj[mKey]} to refined object`);
+                    // It could be at the root or under data
+                    const originalVal = originalObj[mKey] !== undefined ? originalObj[mKey] : originalObj.data?.[mKey];
+                    if (originalVal !== undefined) {
+                      refinedObj[mKey] = originalVal;
+                      console.log(`[REINJECT] Copied ${mKey}=${originalVal} to refined object`);
                     }
                   }
                   // Ensure the parsedRefined uses the original key (not _prompt version)
@@ -433,12 +435,13 @@ export default function Dashboard() {
           console.log(`[${feed.title}] Available keys in finalResultsToRender:`, Object.keys(finalResultsToRender));
 
           // Extract metadata before stripping (including reasoning)
-          const confidenceScore = finalObj.confidence_score;
-          const sourceQuote = finalObj.source_quote;
-          const sourceFile = finalObj.source_file;
-          const sourcePage = finalObj.source_page;
-          const sourceSection = finalObj.source_section;
-          const reasoning = finalObj.reasoning;
+          // Some models put metadata inside `finalObj`, some put it inside `finalObj.data` or at the root if `data` is missing
+          const confidenceScore = finalObj.confidence_score !== undefined ? finalObj.confidence_score : finalObj.data?.confidence_score;
+          const sourceQuote = finalObj.source_quote !== undefined ? finalObj.source_quote : finalObj.data?.source_quote;
+          const sourceFile = finalObj.source_file !== undefined ? finalObj.source_file : finalObj.data?.source_file;
+          const sourcePage = finalObj.source_page !== undefined ? finalObj.source_page : finalObj.data?.source_page;
+          const sourceSection = finalObj.source_section !== undefined ? finalObj.source_section : finalObj.data?.source_section;
+          const reasoning = finalObj.reasoning !== undefined ? finalObj.reasoning : finalObj.data?.reasoning;
 
           // DEBUG: Log extracted metadata
           console.log(`[${feed.title}] EXTRACTED METADATA:`, { confidenceScore, sourceQuote, sourceFile, sourcePage, sourceSection, reasoning });
@@ -449,12 +452,17 @@ export default function Dashboard() {
             if (k in finalObj) {
               delete finalObj[k];
             }
+            if (finalObj.data && typeof finalObj.data === 'object' && k in finalObj.data) {
+              delete finalObj.data[k];
+            }
           }
 
           let extractedText = "Failed to extract.";
           const dataObj = finalObj.data !== undefined ? finalObj.data : finalObj;
 
-          if (Object.keys(dataObj).length > 0) {
+          if (dataObj && Object.keys(dataObj).length > 0) {
+            // Because the expected output puts the actual data inside another object (or directly), we might have { [key]: { ... } }
+            // Let's ensure dataObj is the actual useful data. If dataObj is like { data: { ... } }, finalObj.data already handled it.
             const value = Object.values(dataObj)[0];
             extractedText = typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
             // Accumulate successfully parsed object for next batch context
@@ -543,9 +551,14 @@ export default function Dashboard() {
         const refinedObj = JSON.parse(data.refinedJson);
         const value = Object.values(refinedObj)[0];
         const extractedText = typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
-        setExtractionFeed(prev => prev.map(feed =>
-          feed.title === key ? { ...feed, data: extractedText, parsedObj: refinedObj } : feed
-        ));
+        setExtractionFeed(prev => prev.map(feed => {
+          if (feed.title === key) {
+             // Preserve metadata fields when setting parsedObj
+             // We keep feed.confidenceScore, feed.reasoning etc intact in the top level `feed`
+             return { ...feed, data: extractedText, parsedObj: refinedObj };
+          }
+          return feed;
+        }));
       } else {
         alert("Refinement failed.");
       }

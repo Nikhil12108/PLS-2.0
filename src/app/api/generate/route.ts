@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
             if (!placeholderInfo) return null;
 
             // Auto-unwrap if it's deeply wrapped
-            let val = placeholderInfo;
+            let val: any = placeholderInfo;
             if (val && typeof val === 'object' && !Array.isArray(val) && Object.keys(val).length === 1) {
-                val = (val as Record<string, unknown>)[Object.keys(val)[0]];
+                val = (val as Record<string, any>)[Object.keys(val)[0]];
             }
 
             if (Array.isArray(val)) {
@@ -131,8 +131,8 @@ export async function POST(request: NextRequest) {
             throw new Error(`Template file ${templateFilename} not found at ${templatePath}`);
         }
 
-        const textPatches: Record<string, unknown> = {};
-        const tablePatches: Record<string, unknown> = {};
+        const textPatches: Record<string, any> = {};
+        const tablePatches: Record<string, any> = {};
 
         for (const [key, rawValue] of Object.entries(parsedData)) {
             // Auto unwrap if the object logically groups the data but AI added metadata
