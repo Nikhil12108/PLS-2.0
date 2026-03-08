@@ -8,7 +8,7 @@ async function test() {
             batchPrompts: {
                 health_condition_description: "Answer this question from the uploaded files. Write about the health condition. \nFINAL JSON OUTPUT:\n{\n  \"Health condition description\": \"<output here>\"\n}"
             },
-            vectorStoreId: "vs_6973393579548191aac1ecb82ec2d540"
+            vectorStoreId: process.env.KB_VECTOR_STORE_ID || "vs_6973393579548191aac1ecb82ec2d540"
         })
     });
     console.log("Status:", result.status);

@@ -15,7 +15,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Missing rawJson to refine' }, { status: 400 });
         }
 
-        const KB_VECTOR_STORE_ID = "vs_6973393579548191aac1ecb82ec2d540";
+        const KB_VECTOR_STORE_ID = process.env.KB_VECTOR_STORE_ID;
+
+        if (!KB_VECTOR_STORE_ID) {
+            console.error('KB_VECTOR_STORE_ID environment variable is not defined');
+            return NextResponse.json({ error: 'Server configuration error: Vector Store ID missing' }, { status: 500 });
+        }
 
         const REFINEMENT_SYSTEM_PROMPT = `<system_role>
 You are the "Novartis Language Refinement Specialist," a medical writing editor 
