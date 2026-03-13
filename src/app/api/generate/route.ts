@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
             if (!placeholderInfo) return null;
 
             // Auto-unwrap if it's deeply wrapped
-            let val: unknown = placeholderInfo;
-            if (val && typeof val === 'object' && !Array.isArray(val) && Object.keys(val as Record<string, unknown>).length === 1) {
-                val = (val as Record<string, unknown>)[Object.keys(val as Record<string, unknown>)[0]];
+            let val: any = placeholderInfo;
+            if (val && typeof val === 'object' && !Array.isArray(val) && Object.keys(val).length === 1) {
+                val = (val as Record<string, any>)[Object.keys(val)[0]];
             }
 
             if (Array.isArray(val)) {
@@ -131,9 +131,7 @@ export async function POST(request: NextRequest) {
             throw new Error(`Template file ${templateFilename} not found at ${templatePath}`);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const textPatches: Record<string, any> = {};
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const tablePatches: Record<string, any> = {};
 
         for (const [key, rawValue] of Object.entries(parsedData)) {
@@ -426,14 +424,13 @@ export async function POST(request: NextRequest) {
         zip.file(docxFilename, docxBuffer);
 
         // 3. Zip and Return
-        const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
 
-        return new Response(zipBuffer as unknown as BodyInit, {
+        return new Response(zipBlob, {
             status: 200,
             headers: {
                 'Content-Type': 'application/zip',
                 'Content-Disposition': `attachment; filename="${zipFilename}"`,
-                'Content-Length': String(zipBuffer.length),
             },
         });
 

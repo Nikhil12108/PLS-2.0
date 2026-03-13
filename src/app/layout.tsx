@@ -2,16 +2,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-})
+const inter = Inter({ subsets: ['latin'], variable: '--font-display' })
 
 export const metadata: Metadata = {
-  title: 'KrystelisClearAI — Intelligent Document Assistant',
-  description: 'AI-powered clinical document extraction, plain language conversion, and report generation dashboard by Krystelis.',
-  keywords: ['AI', 'clinical documents', 'plain language summary', 'document extraction', 'Krystelis'],
+  title: 'KrystelisClearAI Dashboard',
+  description: 'AI powered document parsing dashboard',
 }
 
 export default function RootLayout({

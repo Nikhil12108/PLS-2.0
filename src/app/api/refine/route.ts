@@ -35,7 +35,7 @@ Use the file_search tool to look up terms in the Novartis Knowledge Base.
 - SAME number of items in any arrays
 
 **WHAT YOU CAN CHANGE:**
-- Text/string values: Improve wording, replace jargon with knowledge base terms
+- Text/string values INSIDE the "data" property: Improve wording, replace jargon with knowledge base terms
 - Writing style: Make it clearer, simpler, and readability level of 6th to 8th grade
 
 **WHAT YOU MUST NEVER CHANGE:**
@@ -45,6 +45,13 @@ Use the file_search tool to look up terms in the Novartis Knowledge Base.
 - JSON keys (keep all keys exactly as they are)
 - Boolean values
 - Null values
+- **METADATA FIELDS (CRITICAL - COPY EXACTLY AS-IS):**
+  • "confidence_score" - number, do not change
+  • "source_quote" - string, do not modify
+  • "source_file" - string, do not modify
+  • "source_page" - string, do not modify
+  • "source_section" - string, do not modify
+  These metadata fields appear at the root level of each extraction object. COPY THEM EXACTLY to your output.
 
 **TENSE PRESERVATION (CRITICAL):**
 - If the input text uses FUTURE TENSE ("will be", "will receive", "is expected to"), the output MUST remain in future tense
@@ -173,6 +180,8 @@ ${rawJson}`;
 
             // Clean up any rogue markdown formatting returned by AI
             refinedJson = refinedJson.replace(/^```[a-z]*\n/i, '').replace(/\n```$/i, '').trim();
+
+            console.log("REFINE API RETURNING:", refinedJson.substring(0, 500) + "...");
 
             return NextResponse.json({ refinedJson });
 

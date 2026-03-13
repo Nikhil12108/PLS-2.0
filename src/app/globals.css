@@ -1,106 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0066FF;
-  --color-primary-light: #4D94FF;
-  --color-primary-dark: #0047B3;
-  --color-accent: #FF6B35;
-  --color-accent-light: #FF8F66;
-  --color-success: #00C48C;
-  --color-warning: #FFB800;
-  --color-danger: #FF3B5C;
-  --color-background-light: #F8F9FC;
-  --color-background-dark: #0B0F1A;
-  --color-surface-light: #FFFFFF;
-  --color-surface-dark: #141927;
-  --color-border-light: #E2E8F0;
-  --color-border-dark: #1E293B;
+  --color-primary: #0072da;
+  --color-accent: #ffb489;
+  --color-background-light: #f6f6f8;
+  --color-background-dark: #101622;
   --font-display: "Inter", sans-serif;
-  --radius-DEFAULT: 0.375rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
   --radius-full: 9999px;
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
-  --shadow-card-hover: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
-  --shadow-elevated: 0 4px 16px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.06);
 }
 
 body {
   font-family: var(--font-display);
-  letter-spacing: -0.011em;
 }
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-
-/* Custom Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 102, 255, 0.15);
-  border-radius: 999px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 102, 255, 0.3);
-}
-
-/* Gradient Mesh Background */
-.gradient-mesh {
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(0, 102, 255, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(255, 107, 53, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(0, 196, 140, 0.03) 0%, transparent 50%);
-}
-
-/* Subtle glass effect */
-.glass {
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-}
-
-/* Pulsing glow for active states */
-@keyframes gentle-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-.animate-gentle-pulse {
-  animation: gentle-pulse 2s ease-in-out infinite;
-}
-
-/* Status dot animation */
-@keyframes status-ping {
-  0% { transform: scale(1); opacity: 1; }
-  75%, 100% { transform: scale(2.5); opacity: 0; }
-}
-.status-dot-ping {
-  animation: status-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-/* Skeleton shimmer */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.skeleton-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(0, 102, 255, 0.06) 50%, transparent 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.8s ease-in-out infinite;
-}
-
-/* Progress bar glow */
-.progress-glow {
-  box-shadow: 0 0 8px rgba(0, 102, 255, 0.4), 0 0 20px rgba(0, 102, 255, 0.15);
-}
-
-/* Focus ring utility */
-.focus-ring:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
 }

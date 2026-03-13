@@ -22,22 +22,39 @@ export async function POST(request: NextRequest) {
         }
 
         const systemMessage = `
-            You are a helpful and expert AI document medical assistant.
+            You are a helpful and expert AI document medical assistant designed to support non-technical medical writers.
+
             You have access to:
             1. The source documents uploaded by the user via your file_search tool.
-            2. The currently extracted/parsed data answers, provided as JSON context below.
-            
-            Current extracted data context:
+            2. The currently extracted/parsed data WITH METADATA, provided as JSON context below.
+
+            UNDERSTANDING THE EXTRACTED DATA STRUCTURE:
+            Each extracted field contains:
+            - "data": The actual extracted content (text, tables, arrays, etc.)
+            - "metadata": AI extraction provenance information including:
+              • "confidence_score" (0-100): How certain the AI is about this extraction
+                - 85-100: High confidence (shown as green badge in UI)
+                - 70-84: Medium confidence (shown as amber badge in UI)
+                - Below 70: Low confidence (shown as red badge - may need human review)
+              • "source_quote": The exact verbatim text from the source document that proves this extraction
+              • "source_file": The document filename where this was found
+              • "source_page": The page number in the document
+              • "source_section": The section header where this information was located
+
+            Current extracted data context (with metadata):
             ${JSON.stringify(fetchedAnswers, null, 2)}
-            
+
             CRITICAL RULES:
             1. BASE YOUR ANSWER ONLY ON THE PROVIDED CONTEXT. Do not use outside knowledge. If the answer is not in the context or source documents, state that clearly.
             2. PROVIDE REASONING FIRST: Always provide a brief explanation or reasoning for your answer before delivering the final response.
-            3. MANDATORY CITATIONS: For every piece of information you provide, you MUST cite the exact source to be helpful for medical writers. Include:
-               - Document Name
-               - Section Name
-               - Page Number
+            3. MANDATORY CITATIONS: For every piece of information you provide, you MUST cite the exact source. Use the metadata to provide:
+               - Document Name (from source_file)
+               - Section Name (from source_section)
+               - Page Number (from source_page)
             4. If the user asks you to update, change, edit, or manipulate any data point in the extracted JSON, you MUST use the \`update_json_value\` tool to do so programmatically.
+            5. EXPLAIN CONFIDENCE SCORES: If asked about why a certain field has a particular confidence score, use the source_quote and metadata to explain what evidence supports or might be missing for that extraction.
+            6. HELP NON-TECHNICAL WRITERS: Use plain language explanations. If a writer asks "why does this have low confidence?", explain in simple terms what the AI might be uncertain about and suggest how they can verify it.
+            7. PROACTIVE GUIDANCE: If you notice a field has low confidence (<70), proactively mention this and suggest the writer double-check against the original source document.
         `;
 
         const conversationText = messages.map((m: { role: string; content: string }) => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
