@@ -62,4 +62,5 @@ jobs:
           app-name: 'webapp-pls-dev-ukw-ks-001'
           slot-name: 'Production'
           package: .
+          type: zip
           
