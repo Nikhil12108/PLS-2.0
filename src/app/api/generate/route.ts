@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import PptxGenJS from 'pptxgenjs';
 import { patchDocument, PatchType, TextRun, Table, TableRow, TableCell, Paragraph, BorderStyle, WidthType, AlignmentType, VerticalAlign } from 'docx';
 import JSZip from 'jszip';
@@ -6,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { TABLE_HEADER_COLORS, TREATMENT_COLOR_PALETTE } from '@/lib/constants';
 import { getUserIdentity } from '@/lib/auth';
+import { auditLog } from '@/lib/audit-logger';
 import type { GenerateRequest, TreatmentGroup, ChartEndpointItem, ChartDataset } from '@/types';
 
 export async function POST(request: NextRequest) {
@@ -17,8 +19,6 @@ export async function POST(request: NextRequest) {
         if (!parsedData) {
             return NextResponse.json({ error: 'Missing parsedData for generation' }, { status: 400 });
         }
-
-        console.log(`[AUDIT] [generate] User "${userId}" generating report for mapping: "${mappingName}"`);
 
         const zip = new JSZip();
 
@@ -433,6 +433,21 @@ export async function POST(request: NextRequest) {
 
         // 3. Zip and Return
         const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
+        const fileHash = 'sha256:' + crypto.createHash('sha256').update(zipBuffer).digest('hex');
+
+        auditLog({
+            request, 
+            action: 'FILE_DOWNLOAD',
+            resource: { 
+                type: 'file', 
+                name: zipFilename, 
+                size: zipBuffer.length,
+                hash: fileHash,
+                path: '/api/generate' 
+            },
+            status: { code: 200, result: 'SUCCESS' },
+            details: { mapping_name: mappingName }
+        });
 
         return new Response(zipBuffer as unknown as BodyInit, {
             status: 200,
@@ -446,6 +461,12 @@ export async function POST(request: NextRequest) {
     } catch (error: unknown) {
         const msg = error instanceof Error ? error.message : String(error);
         console.error("[generate] Error:", msg);
+        auditLog({
+            request, action: 'SYSTEM_ERROR',
+            resource: { type: 'API', path: '/api/generate' },
+            status: { code: 500, result: 'FAILURE' },
+            details: { error: msg }
+        });
         return NextResponse.json({ error: "Generation failed", details: msg }, { status: 500 });
     }
 }

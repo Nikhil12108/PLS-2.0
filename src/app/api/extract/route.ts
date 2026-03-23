@@ -3,6 +3,7 @@ import { openai } from '@/lib/openai';
 import { withRetry } from '@/lib/retry';
 import { AI_MODEL } from '@/lib/constants';
 import { getUserIdentity } from '@/lib/auth';
+import { auditLog } from '@/lib/audit-logger';
 import type { OpenAIResponsePayload, ExtractRequest } from '@/types';
 
 export const maxDuration = 300;
@@ -136,8 +137,12 @@ export async function POST(request: NextRequest) {
         }
 
         const keys = Object.keys(batchPrompts);
-        console.log(`[AUDIT] [extract] User "${userId}" requested data extraction for keys: [${keys.join(', ')}]`);
-
+        auditLog({
+            request, action: 'DATA_EXTRACT',
+            resource: { type: 'API', path: '/api/extract' },
+            status: { code: 200, result: 'SUCCESS' },
+            details: { keys, vectorStoreId }
+        });
 
         // === AGENT 1: Retrieval ===
         console.log("[extract] Agent 1 (Retrieval): Starting for keys:", keys);
@@ -165,6 +170,12 @@ export async function POST(request: NextRequest) {
     } catch (error: unknown) {
         const msg = error instanceof Error ? error.message : String(error);
         console.error("[extract] Pipeline error:", msg);
+        auditLog({
+            request, action: 'SYSTEM_ERROR',
+            resource: { type: 'API', path: '/api/extract' },
+            status: { code: 500, result: 'FAILURE' },
+            details: { error: msg }
+        });
         return NextResponse.json(
             { error: "Extraction failed", details: msg },
             { status: 500 }

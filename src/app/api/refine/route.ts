@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
 import { AI_MODEL } from '@/lib/constants';
 import { getUserIdentity } from '@/lib/auth';
+import { auditLog } from '@/lib/audit-logger';
 import type { OpenAIResponsePayload, RefineRequest } from '@/types';
 
 export const maxDuration = 300;
@@ -17,7 +18,12 @@ export async function POST(request: NextRequest) {
         }
 
         const keysBeingRefined = typeof rawJson === 'string' ? 'String Payload' : Object.keys(rawJson).join(', ');
-        console.log(`[AUDIT] [refine] User "${userId}" requested AI refinement. Instructions: "${userInstructions || 'None'}". Data keys: [${keysBeingRefined}]`);
+        auditLog({
+            request, action: 'DATA_REFINE',
+            resource: { type: 'API', path: '/api/refine' },
+            status: { code: 200, result: 'SUCCESS' },
+            details: { instructions: userInstructions, keys: keysBeingRefined }
+        });
 
         const KB_VECTOR_STORE_ID = process.env.NOVARTIS_KB_VECTOR_STORE_ID || "";
         if (!KB_VECTOR_STORE_ID) {
@@ -193,6 +199,12 @@ ${rawJson}`;
     } catch (error: unknown) {
         const msg = error instanceof Error ? error.message : String(error);
         console.error("[refine] Error:", msg);
+        auditLog({
+            request, action: 'SYSTEM_ERROR',
+            resource: { type: 'API', path: '/api/refine' },
+            status: { code: 500, result: 'FAILURE' },
+            details: { error: msg }
+        });
         return NextResponse.json({ error: "Refinement failed", details: msg }, { status: 500 });
     }
 }

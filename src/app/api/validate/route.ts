@@ -3,6 +3,7 @@ import { openai } from '@/lib/openai';
 import { withRetry } from '@/lib/retry';
 import { AI_MODEL } from '@/lib/constants';
 import { getUserIdentity } from '@/lib/auth';
+import { auditLog } from '@/lib/audit-logger';
 import type { OpenAIResponsePayload, ValidateRequest } from '@/types';
 
 export const maxDuration = 300;
@@ -13,7 +14,12 @@ export async function POST(request: NextRequest) {
         const body: ValidateRequest = await request.json();
         const { keyName, extractedData, sourceQuote } = body;
 
-        console.log(`[AUDIT] [validate] User "${userId}" requested validation for key: "${keyName}"`);
+        auditLog({
+            request, action: 'DATA_VALIDATE',
+            resource: { type: 'API', path: '/api/validate' },
+            status: { code: 200, result: 'SUCCESS' },
+            details: { keyName }
+        });
 
         // Only validate specific complex tables
         if (!keyName.includes('table')) {
@@ -74,6 +80,12 @@ ${JSON.stringify(extractedData)}
     } catch (error: unknown) {
         const msg = error instanceof Error ? error.message : String(error);
         console.error("[validate] Error:", msg);
+        auditLog({
+            request, action: 'SYSTEM_ERROR',
+            resource: { type: 'API', path: '/api/validate' },
+            status: { code: 500, result: 'FAILURE' },
+            details: { error: msg }
+        });
         return NextResponse.json({ error: "Validation failed" }, { status: 500 });
     }
 }
